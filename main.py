@@ -1,17 +1,21 @@
 from src.document import Document
+from src.rag import RAGPipeline
 
-# create document object
+# load and split document
 doc = Document("C:/Users/Faraz/ai_document_assistant/data/sample.pdf")
-
-# load the PDF
 doc.load()
-
-# split into chunks
 doc.split()
-
-# print summary
 doc.summary()
 
-# show first 5 chunks in a table
-df = doc.chunks_summary()
-print(df.head())  # head() = show first 5 rows
+# create RAG pipeline
+rag = RAGPipeline()
+
+# store chunks as embeddings
+rag.store_chunks(doc.chunks)
+
+# ask a real question about the document
+question = "What is the purpose of this report?"
+answer = rag.ask(question)
+
+print(f"\nQuestion: {question}")
+print(f"Answer  : {answer}")
